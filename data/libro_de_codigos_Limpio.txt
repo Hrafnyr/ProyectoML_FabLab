@@ -1,0 +1,405 @@
+LIBRO DE CÓDIGOS
+==============================
+
+Variable: Trabajo 
+Etiqueta: Situación Laboral 
+Valores:
+  Trabajo de jornada completa = 0 
+  Trabajo de medio tiempo = 1 
+  Emprendimiento = 2 
+----------------------------------
+
+Variable: Sexo 
+Etiqueta: Sexo 
+Valores:
+  Hombre = 1 
+  Mujer = 2 
+  Prefiero no decirlo = 3 
+----------------------------------
+
+Variable: Religion 
+Etiqueta: Religión 
+Valores:
+  Católica = 1 
+  Evangélica = 2 
+  Adventista = 3 
+  Testigo de Jehová = 4 
+  Judía = 5 
+  Mormona = 6 
+  Ninguna = 7 
+  Otra = 8 
+----------------------------------
+
+Variable: Etnia 
+Etiqueta: Etnia 
+Valores:
+  Mestiza o ladina = 1 
+  Maya = 2 
+  Xinca = 3 
+  Garífuna = 4 
+  Otro = 5 
+----------------------------------
+
+Variable: EstCivil 
+Etiqueta: Estado Civil 
+Valores:
+  Soltera (o) = 1 
+  Unida(o) = 2 
+  Casada (o) = 3 
+  Separada(o) = 4 
+  Divorciada(o) = 5 
+  Viuda (o) = 6 
+  Otro = 7 
+  Noviazgo / compromiso = 8 
+----------------------------------
+
+Variable: Terapia 
+Valores:
+  No = 0 
+  Sí = 1 
+----------------------------------
+
+Variable: TrataPsi 
+Etiqueta: Asistir a tratamiento psicológico durante los últimos tres meses 
+Valores:
+  No = 0 
+  Sí = 1 
+  Sí, estoy en un proceso psicoterapéutico = 2 
+----------------------------------
+
+Variable: ¿Tienehijos 
+Etiqueta: ¿Tiene hijos? 
+------------------
+Variable: UnAca 
+Etiqueta: Unidad Académica 
+Valores:
+  Ciencias Médicas = 1 
+  Humanidades = 2 
+  Agronomía = 3 
+  Arquitectura = 4 
+  Ciencias Económicas = 5 
+  Ciencias Jurídicas y Sociales = 6 
+  Ciencias Químicas y Farmacia = 7 
+  Ingeniería = 8 
+  Medicina Veterinaria y Zootecnia = 9 
+  Ciencias Psicológicas = 10 
+  Historia = 11 
+  Trabajo Social = 12 
+  Ciencias de la Comunicación = 13 
+  Ciencia Política = 14 
+  Profesor de Enseñanza Media = 15 
+  Arte = 16 
+  Ciencias Físicas y Matemáticas = 17 
+  Estudios del Mar y Acuicultura = 18 
+  Otra = 19 
+  Odontología = 20 
+----------------------------------
+
+Variable: CEntroU 
+Etiqueta: ¿En qué centro universitario está inscrito? 
+Valores:
+  Campus Central (Zona 12) = 0 
+  Centro Universitario Metropolitano, Ciudad Capital (Zona 11) = 1 
+  Facultad de Humanidades, Sedes Departamentales = 2 
+  Centro Universitario de Occidente -CUNOC- = 3 
+  Centro Universitario del Norte -CUNOR- = 4 
+  Centro Universitario de San Marcos -CUSAM- = 5 
+  Centro Universitario de Oriente -CUNORI- = 6 
+  Centro Universitario de Suroriente -CUNSURORI- = 7 
+  Centro Universitario de Peten -CUDEP- = 8 
+  Centro Universitario de Chimaltenango -CUNDECH- = 9 
+  Centro Universitario de Quiche -CUSACQ- = 10 
+  Centro Universitario de Noroccidente -CUNOROC- = 11 
+  Centro Universitario del Sur -CUNSUR- = 12 
+  Centro Universitario de Santa Rosa -CUSARO- = 13 
+  Centro Universitario de Jutiapa -JUSAC- = 14 
+  Centro Universitario de Izaba -CUNIZAB- = 15 
+  Centro Universitario de Suroccidente -CUNSUROC- = 16 
+  Centro Universitario de El Progreso -CUNPROGRESO- = 17 
+  Centro Universitario de Baja Verapaz -CUNBAV- = 18 
+  Centro Universitario de Totonicapán -CUNTOTO- = 19 
+  Centro Universitario de Zacapa -CUNZAC- = 20 
+  Centro Universitario de Sololá -CUNSOL- = 21 
+  Centro Universitario de Sacatepéquez - CUNSAC- = 22 
+  Centro Universitario Retalhuleu -CUNREU- = 23 
+  Instituto Tecnológico Maya de Estudios Superiores -ITMES- = 24 
+  Instituto Tecnológico Universitario Guatemala SUR -ITUGS- = 25 
+  Centro de Estudios del Mar y Acuicultura -CEMA- = 26 
+  Paraninfo Universitario, Zona 1 Guatemala = 27 
+  Otro = 28 
+----------------------------------
+
+Variable: Grado 
+Etiqueta: Grado 
+Valores:
+  Carrera técnica o profesorado (Pregrado) = 0 
+  Licenciatura, ingeniería (Grado) = 1 
+  Postgrado (especialización, maestría, doctorado) = 2 
+----------------------------------
+
+Variable: Semestre 
+Etiqueta: Semestre 
+Valores:
+  Primer Semestre = 1 
+  Segundo Semestre = 2 
+  Tercer Semestre = 3 
+  Cuarto Semestre = 4 
+  Quinto Semestre = 5 
+  Sexto Semestre = 6 
+  Séptimo Semestre = 7 
+  Octavo Semestre = 8 
+  Noveno Semestre = 9 
+  Decimo Semestre = 10 
+  Onceavo Semestre = 11 
+  Doceavo Semestre = 12 
+----------------------------------
+
+Variable: Jornada 
+Etiqueta: Jornada 
+Valores:
+  Matutina = 0 
+  Vespertina = 1 
+  Nocturna = 2 
+  Fin de Semana = 3 
+  Cierre de pensum = 4 
+----------------------------------
+Variable: @01PHQ 
+Etiqueta: 01:PHQ 
+----------------------------------
+
+Variable: @02PHQ 
+Etiqueta: 02:PHQ 
+----------------------------------
+
+Variable: @03PHQ 
+Etiqueta: 03:PHQ 
+----------------------------------
+
+Variable: @04PHQ 
+Etiqueta: 04:PHQ 
+----------------------------------
+
+Variable: @05PHQ 
+Etiqueta: 05:PHQ 
+----------------------------------
+
+Variable: @06PHQ 
+Etiqueta: 06:PHQ 
+----------------------------------
+
+Variable: @07PHQ 
+Etiqueta: 07:PHQ 
+----------------------------------
+
+Variable: @08PHQ 
+Etiqueta: 08:PHQ 
+----------------------------------
+
+Variable: @09PHQ 
+Etiqueta: 09:PHQ 
+----------------------------------
+
+Variable: @01CDrisc 
+Etiqueta: 01:CDrisc 
+----------------------------------
+
+Variable: @02CDrisc 
+Etiqueta: 02:CDrisc 
+----------------------------------
+
+Variable: @03CDrisc 
+Etiqueta: 03:CDrisc 
+----------------------------------
+
+Variable: @04CDrisc 
+Etiqueta: 04:CDrisc 
+----------------------------------
+
+Variable: @05CDrisc 
+Etiqueta: 05:CDrisc 
+----------------------------------
+
+Variable: @06CDrisc 
+Etiqueta: 06:CDrisc 
+----------------------------------
+
+Variable: @07CDrisc 
+Etiqueta: 07:CDrisc 
+----------------------------------
+
+Variable: @08CDrisc 
+Etiqueta: 08:CDrisc 
+----------------------------------
+
+Variable: @09CDrisc 
+Etiqueta: 09:CDrisc 
+----------------------------------
+
+Variable: @10CDrisc 
+Etiqueta: 10:CDrisc 
+----------------------------------
+
+Variable: mhc1 
+Etiqueta: 1:MHC 
+----------------------------------
+
+Variable: mhc2 
+Etiqueta: 2:MHC 
+----------------------------------
+
+Variable: mhc3 
+Etiqueta: 3:MHC 
+----------------------------------
+
+Variable: mhc4 
+Etiqueta: 4:MHC 
+----------------------------------
+
+Variable: mhc5 
+Etiqueta: 5:MHC 
+----------------------------------
+
+Variable: mhc6 
+Etiqueta: 6:MHC 
+----------------------------------
+
+Variable: mhc7 
+Etiqueta: 7:MHC 
+----------------------------------
+
+Variable: mhc8 
+Etiqueta: 8:MHC 
+----------------------------------
+
+Variable: mhc9 
+Etiqueta: 9:MHC 
+----------------------------------
+
+Variable: mhc10 
+Etiqueta: 10:MHC 
+----------------------------------
+
+Variable: mhc11 
+Etiqueta: 11:MHC 
+----------------------------------
+
+Variable: mhc12 
+Etiqueta: 12:MHC 
+----------------------------------
+
+Variable: mhc13 
+Etiqueta: 13:MHC 
+----------------------------------
+
+Variable: mhc14 
+Etiqueta: 14:MHC 
+----------------------------------
+
+Variable: @1GAD 
+Etiqueta: 1:GAD 
+----------------------------------
+
+Variable: @2GAD 
+Etiqueta: 2:GAD 
+----------------------------------
+
+Variable: @3GAD 
+Etiqueta: 3:GAD 
+----------------------------------
+
+Variable: @4GAD 
+Etiqueta: 4:GAD 
+----------------------------------
+
+Variable: @5GAD 
+Etiqueta: 5:GAD 
+----------------------------------
+
+Variable: @6GAD 
+Etiqueta: 6:GAD 
+----------------------------------
+
+Variable: @7GAD 
+Etiqueta: 7:GAD 
+----------------------------------
+
+Variable: ConsumoSustancias 
+Etiqueta: Consumo de sustancias 
+Valores:
+  No = 0 
+  Sí = 1 
+----------------------------------
+
+Variable: Tabaco¿Quétipodesustanciaspsicoactivashaconsumidoenlosúltimos 
+Etiqueta: Tabaco:¿Qué tipo de sustancias psicoactivas ha consumido en los últimos 12 meses? 
+----------------------------------
+
+Variable: Marihuana¿Quétipodesustanciaspsicoactivashaconsumidoenlosúlti 
+Etiqueta: Marihuana:¿Qué tipo de sustancias psicoactivas ha consumido en los últimos 12 meses? 
+----------------------------------
+Variable: Alcohol¿Quétipodesustanciaspsicoactivashaconsumidoenlosúltimo 
+Etiqueta: Alcohol:¿Qué tipo de sustancias psicoactivas ha consumido en los últimos 12 meses? 
+----------------------------------
+Variable: SUMPHQ 
+Etiqueta: Sumatoria de PHQ9 
+----------------------------------
+
+Variable: AGrupPHQ 
+Etiqueta: Indicadores del trastorno depresivo mayor 
+Valores:
+  Depresión mínima = 1 
+  Depresión leve = 2 
+  Depresión moderada = 3 
+  Depresión moderadamente severa = 4 
+  Depresión severa = 5 
+----------------------------------
+
+Variable: NivCDRisc 
+Etiqueta: Niveles de Resiliencia 
+Valores:
+  Nivel Bajo = 1 
+  Nivel Medio = 2 
+  Nivel Alto = 3 
+----------------------------------
+
+Variable: SumaGAD 
+Etiqueta: Sumatoria de indicadores de trastorno de ansiedad generalizada 
+----------------------------------
+
+Variable: NivelesGAD 
+Etiqueta: Niveles de Trastorno de Ansiedad Generalizada 
+Valores:
+  Minima = 1 
+  Leve = 2 
+  Moderada = 3 
+  Severa = 4 
+----------------------------------
+
+Variable: mhc_total 
+Etiqueta: Sumatoria de Bienestar 
+----------------------------------
+
+Variable: hiaffect 
+Etiqueta: Hedonic High (≥1 ítem 1–3 con respuesta 4–5) 
+----------------------------------
+
+Variable: loaffect 
+Etiqueta: Hedonic Low  (≥1 ítem 1–3 con respuesta 0–1) 
+----------------------------------
+
+Variable: hifunct 
+Etiqueta: Functional High (≥6 ítems 4–14 con respuesta 4–5) 
+----------------------------------
+
+Variable: lofunct 
+Etiqueta: Functional Low  (≥6 ítems 4–14 con respuesta 0–1) 
+----------------------------------
+
+Variable: mhc_dx 
+Etiqueta: Categorías de Bienestar 
+Valores:
+  Desanimado (Languishing) = 0 
+  Moderado = 1 
+  Florecido (Flourishing) = 2 
+----------------------------------
+
