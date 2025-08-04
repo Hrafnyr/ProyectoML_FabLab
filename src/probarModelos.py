@@ -1,8 +1,9 @@
 import joblib
 import pandas as pd
 loaded_pipeline = joblib.load('models/gnb_pipeline.joblib')
+loades_DecisionTree = joblib.load('models/decision_tree_model.joblib')
 
-# _________________ Para modelo 1.1
+
 import numpy as np
 
 # Rangos máximos
@@ -38,7 +39,7 @@ df_test = pd.DataFrame(data)
 #print(df_test)
 
 
-# Predecir
+#____________________ Predecir gaussian NB
 prediccion = loaded_pipeline.predict(df_test)
 probas = loaded_pipeline.predict_proba(df_test)  # probabilidades por clase si quieres confianza
 classes = loaded_pipeline.named_steps['gaussiannb'].classes_
@@ -46,4 +47,12 @@ classes = loaded_pipeline.named_steps['gaussiannb'].classes_
 
 print("Predicción de clase:", prediccion)
 print("Probabilidades:", probas)
-# _____________________________________
+#____________________________________
+
+#____________________ Predecir Decision tree
+prediccion = loades_DecisionTree.predict(df_test)
+probas = loades_DecisionTree.predict_proba(df_test)  # probabilidades por clase si quieres confianza
+
+print("Predicción de clase:", prediccion)
+print("Probabilidades:", probas)
+#____________________________________

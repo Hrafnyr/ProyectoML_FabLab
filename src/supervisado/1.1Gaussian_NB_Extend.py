@@ -13,12 +13,12 @@ df = pd.read_csv('data/4datasetListo.csv')
 # --- 2. Selección de features y target ---
 features = [
     'SUMPHQ', 'SumaGAD', 'SUMCDrisc', 'mhc_total',  # escalas
-    'edad', 'Trabajo', 'Sexo', 'ConsumoSustancias'  # demográficas / contexto social
+    'edad', 'Trabajo', 'Sexo', 'ConsumoSustancias', 'Semestre', 'EstCivil'  # demográficas / contexto social
 ]
 target = 'mhc_dx'  # ejemplo: bienestar categórico (0=languishing,1=moderado,2=floreciente)
 
 X = df[features]
-y = df[target]
+y = df[target]  
 
 # --- 3. Dividir en train/test ---
 X_train, X_test, y_train, y_test = train_test_split(
@@ -36,5 +36,5 @@ print(classification_report(y_test, y_pred, digits=3))
 print("Confusion matrix:\n", confusion_matrix(y_test, y_pred))
 
 # --- 5. Guardar el pipeline entrenado ---
-joblib.dump(pipeline, 'models/gnb_pipeline.joblib')  # guarda scaler + modelo en un solo objeto
+#joblib.dump(pipeline, 'gnb_pipeline.joblib')  # guarda scaler + modelo en un solo objeto
 
