@@ -1,4 +1,5 @@
 import numpy as np
+import joblib
 import pandas as pd
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
@@ -10,8 +11,9 @@ df = pd.read_csv("data/4datasetListo.csv")
 
 # --- 2. Selección de features y target ---
 features = [
-    'SUMPHQ', 'SumaGAD', 'SUMCDrisc', 'mhc_total',  # escalas
-    'edad', 'Sexo', 'ConsumoSustancias', 'Semestre'  # demográficas / contexto social
+    'SUMPHQ', 'SumaGAD', 'SUMCDrisc', 'mhc_total', 'mhc_ewb','loaff', 'hiaffect',  # escalas
+    'edad', 'Sexo', 'Trabajo','Religion','ConsumoSustancias', 'Semestre',
+    'EstCivil', 'Terapia', 'TrataPsi', 'UnAca','Grado'  # demográficas / contexto social
 ]
 target = 'mhc_dx'  # bienestar categórico
 
@@ -29,7 +31,7 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # --- 5. Entrenamiento del modelo ---
-model = MLPClassifier(hidden_layer_sizes=(10,5), max_iter=1000, random_state=42)
+model = MLPClassifier(hidden_layer_sizes=(20,10), max_iter=1500, random_state=42)
 model.fit(X_train_scaled, y_train)
 
 # --- 6. Predicciones y evaluación ---
@@ -44,3 +46,6 @@ print(classification_report(y_test, y_pred))
 
 print("\nMatriz de confusión:")
 print(confusion_matrix(y_test, y_pred))
+
+# guardar el modelo completo
+joblib.dump(model, "models/ML_classifier.joblib")
