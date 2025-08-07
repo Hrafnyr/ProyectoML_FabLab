@@ -56,3 +56,38 @@ probas = loades_DecisionTree.predict_proba(df_test)  # probabilidades por clase 
 print("Predicción de clase:", prediccion)
 print("Probabilidades:", probas)
 #____________________________________
+
+#______________________ KMEANS _____________ 
+# Cargar modelo y scaler
+kmeans = joblib.load('models/KMEANS/modelo_kmeans.pkl')
+scaler = joblib.load('models/KMEANS/scaler.pkl')
+
+# Crear un DataFrame con los datos de 1 persona (deben estar en el mismo orden que tus 'features')
+nuevo_dato = pd.DataFrame([{
+    'SUMPHQ': 23,
+    'SumaGAD': 12,
+    'SUMCDrisc': 7,
+    'mhc_total': 48,
+    'mhc_ewb': 16,
+    'loaff': 2,
+    'hiaffect': 5,
+    'edad': 22,
+    'Sexo': 1,
+    'Trabajo': 1,
+    'Religion': 1,
+    'ConsumoSustancias': 0,
+    'Semestre': 4,
+    'EstCivil': 0,
+    'Terapia': 1,
+    'TrataPsi': 0,
+    'UnAca': 1,
+    'Grado': 0
+}])
+
+# Escalar los datos igual que como se hizo en entrenamiento
+nuevo_dato_scaled = scaler.transform(nuevo_dato)
+
+# Predecir el cluster
+cluster_predicho = kmeans.predict(nuevo_dato_scaled)
+
+print(f"El individuo fue asignado al cluster: {cluster_predicho[0]}")
