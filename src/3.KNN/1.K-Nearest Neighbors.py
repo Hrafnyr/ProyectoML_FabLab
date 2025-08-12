@@ -3,18 +3,19 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.pipeline import make_pipeline  # <-- para pipeline integrado
 
 # --- 1. Cargar dataset ---
 df = pd.read_csv("data/4datasetListo.csv")
 
 # --- 2. Definir features y target ---
 features = [
-    'SUMPHQ', 'SumaGAD', 'SUMCDrisc', 'mhc_total', 'mhc_ewb', 'loaff', 'hiaffect',
-    'edad', 'Sexo', 'Trabajo', 'Religion', 'ConsumoSustancias', 'Semestre',
-    'EstCivil', 'Terapia', 'TrataPsi', 'UnAca', 'Grado'
+    'SUMPHQ', 'SumaGAD', 'SUMCDrisc',  # escalas
+    'edad', 'Semestre','UnAca', 'Trabajo', 'Religion', 'EstCivil', #Demográficas
+    'CEntroU','Jornada'
 ]
 target = 'mhc_dx'
 
@@ -26,17 +27,17 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# --- 4. Escalado ---
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
+# --- 4. Crear pipeline: escalado + KNN ---
+pipeline = make_pipeline(
+    StandardScaler(),
+    KNeighborsClassifier(n_neighbors=5, weights='distance')
+)
 
-# --- 5. Definir y entrenar el modelo ---
-knn = KNeighborsClassifier(n_neighbors=7, weights='distance')
-knn.fit(X_train_scaled, y_train)
+# --- 5. Entrenar modelo con pipeline ---
+pipeline.fit(X_train, y_train)
 
 # --- 6. Predicción y métricas ---
-y_pred = knn.predict(X_test_scaled)
+y_pred = pipeline.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 
 print("\nMétricas de evaluación:")
@@ -46,9 +47,13 @@ print(classification_report(y_test, y_pred))
 print("\nMatriz de Confusión:")
 print(confusion_matrix(y_test, y_pred))
 
-# # --- 7. Visualización simple con dos features ---
-# # Solo para visualización: usamos dos features representativas
-# X_vis = X_train_scaled[:, :2]  # Usamos solo las 2 primeras columnas
+# --- 7. Validación cruzada ---
+cv_scores = cross_val_score(pipeline, X, y, cv=5, scoring='accuracy')
+print(f"\nAccuracy CV (5 folds): {cv_scores.mean():.3f} ± {cv_scores.std():.3f}")
+
+# --- 8. Visualización simple con dos features ---
+# Nota: solo 2 primeras features para ilustrar, KNN usa todas.
+# X_vis = StandardScaler().fit_transform(X_train)[:, :2]
 # y_vis = y_train.to_numpy()
 
 # plt.figure(figsize=(8, 6))
@@ -62,6 +67,5 @@ print(confusion_matrix(y_test, y_pred))
 # plt.grid(True)
 # plt.show()
 
-# guardar el modelo completo
-joblib.dump(knn, "models/KNN/KNN_classifier.joblib")
-joblib.dump(scaler, "models/KNN/scaler_knn.joblib")
+# --- 9. Guardar pipeline completo ---
+joblib.dump(pipeline, "models/KNN/KNN_model.joblib")
