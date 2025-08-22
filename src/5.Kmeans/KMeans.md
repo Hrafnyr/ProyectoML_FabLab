@@ -15,7 +15,7 @@ El objetivo de este código es aplicar un algoritmo de clustering no supervisado
   Los datos son escalados con `StandardScaler` para que todas las variables tengan media cero y varianza uno, facilitando que KMeans use distancias equitativamente.
 
 - **Entrenamiento del modelo KMeans:**  
-  Se definen 5 clusters (`n_clusters=5`) y se ajusta el modelo a los datos escalados.
+  Se define la cantidad de clusters (`n_clusters=3`) y se ajusta el modelo a los datos escalados.
 
 - **Predicción y análisis:**  
   Se asigna a cada individuo un cluster y se analiza la distribución relativa (`proporciones`) y absoluta (`conteos`) de la variable categórica `mhc_dx` en cada cluster.
@@ -30,78 +30,56 @@ El objetivo de este código es aplicar un algoritmo de clustering no supervisado
 
 ## Resultados del Análisis
 
-### Distribución de `mhc_dx` por Cluster (Proporciones)
 
-| cluster | 0 (Desanimado) | 1 (Moderado) | 2 (Florecido) |
+
+### Distribución de `mhc_dx` por cluster (proporciones)
+| Cluster | Desanimado (0) | Moderado (1) | Florecido (2) |
 |---------|----------------|--------------|---------------|
-| 0       | 17.4%          | 82.3%        | 0.3%          |
-| 1       | 84.9%          | 15.0%        | NaN           |
-| 4       | 1.0%           | 73.8%        | 25.2%         |
+| 0       | 0.114          | 0.760        | 0.125         |
+| 1       | 0.192          | 0.759        | 0.049         |
+| 2       | 0.582          | 0.410        | 0.008         |
 
-### Conteo Absoluto de `mhc_dx` por Cluster
-
-| cluster | 0     | 1     | 2    |
-|---------|-------|-------|------|
-| 0       | 167   | 788   | 3    |
-| 1       | 1514  | 268   | NaN  |
-| 2       | 282   | 2196  | 3    |
-| 3       | 267   | 478   | 9    |
-| 4       | 18    | 1361  | 465  |
+### Conteo absoluto
+| Cluster | Desanimado (0) | Moderado (1) | Florecido (2) | Total |
+|---------|----------------|--------------|---------------|-------|
+| 0       | 293            | 1952         | 322           | 2567  |
+| 1       | 543            | 2143         | 139           | 2825  |
+| 2       | 1412           | 996          | 19            | 2427  |
 
 ---
 
-## Interpretación
+## Análisis de los Clusters
 
-- Los clusters revelan agrupamientos con predominancia de ciertas categorías de bienestar mental: por ejemplo, el cluster 1 concentra principalmente individuos desanimados (clase 0), mientras que el cluster 0 agrupa mayormente individuos en estado moderado (clase 1).
-- El cluster 4 muestra una mezcla más equilibrada, incluyendo una proporción significativa de individuos florecidos (clase 2).
-- Esto sugiere que el agrupamiento no supervisado puede identificar perfiles o subpoblaciones con características clínicas y sociodemográficas similares, que se relacionan con distintos estados de bienestar.
+- **Cluster 0 – Moderados/Florecidos**
+  - Mayoría moderados, con proporción relevante de florecidos.  
+  - Representa un grupo con **funcionamiento positivo** y cierta resiliencia.
 
----
+- **Cluster 1 – Moderados/Intermedios**
+  - Predominan moderados, pero con menos florecidos y más desanimados que el cluster 0.  
+  - Puede considerarse un grupo de **riesgo medio**, con vulnerabilidad latente.
 
-## Ejemplo de Uso Práctico
-
-```plaintext
-Predicción de clase: [0 0 1 1 2 1 2 2 2 2]
-Probabilidades: [
-  [1. 0. 0.],
-  [1. 0. 0.],
-  [0. 1. 0.],
-  [0. 1. 0.],
-  [0. 0. 1.],
-  [0. 1. 0.],
-  [0. 0. 1.],
-  [0. 0. 1.],
-  [0. 0. 1.],
-  [0. 0. 1.]
-]
-```
-
-Para esta prueba se usó un individuo con valores aleatorios y el modelo lo asignó al cluster 4.
-
-### Interpretación de la asignación al **Cluster 4**
-
-Cuando el modelo KMeans asigna a un individuo al **cluster 4**, significa que, en base a sus características clínicas, demográficas y sociales, este individuo pertenece a un grupo (cluster) específico dentro de la población analizada que comparte patrones similares.
+- **Cluster 2 – Críticos (Desanimados)**
+  - Más del 58% desanimados, casi sin florecidos.  
+  - Este cluster concentra los casos de **mayor afectación clínica** y debería recibir atención prioritaria.
 
 ---
 
-#### ¿Qué caracteriza al **cluster 4**?
+## 
+La curva del codo (**N_Clusters.py**) sugería k=2, pero este valor **diluye a los florecidos** casi por completo.  
 
-Según el análisis previo de la distribución de bienestar mental (`mhc_dx`) dentro de los clusters:
-
-- **Cluster 4** está compuesto mayormente por personas con bienestar moderado (`mhc_dx = 1`) en aproximadamente un **73.8%** de los casos.
-- Además, tiene una proporción significativa (alrededor del **25.2%**) de personas en estado floreciente (`mhc_dx = 2`), lo cual indica una buena salud mental.
-- Solo una pequeña minoría corresponde a individuos desanimados (`mhc_dx = 0`), alrededor del **1%**.
-
-Esto indica que el cluster 4 agrupa a individuos con un perfil más positivo en cuanto a bienestar mental, con alta probabilidad de encontrarse en estados moderados o florecientes.
+Con k=3 se logra un **balance clínicamente más útil**, diferenciando:
+  1. Grupo crítico (alta proporción de desanimados).  
+  2. Grupo intermedio (moderados con cierto riesgo).  
+  3. Grupo positivo (moderados con mayor proporción de florecidos).  
 
 ---
 
-#### ¿Qué implica para el nuevo individuo?
+## Conclusión
+El modelo con **k=3** ofrece una estructura clara y aplicable en el ámbito clínico:
 
-Asignar al nuevo individuo al cluster 4 implica que sus características se parecen más a este grupo saludable/moderado dentro del conjunto de datos, por lo que:
+- **Cluster 2** identifica con precisión a la población **en mayor riesgo**.  
+- **Clusters 0 y 1** distinguen entre estudiantes con **funcionamiento positivo** y aquellos en un **estado intermedio**, donde se pueden implementar estrategias de prevención.  
 
-- Probablemente presenta un bienestar mental adecuado o positivo.
-- Comparte características similares en las variables clínicas (como puntajes de escalas) y demográficas con otros individuos de este cluster.
-- Podría beneficiarse o comportarse de forma parecida a la mayoría de personas de este cluster en términos de intervenciones, seguimiento o análisis clínico.
+Este resultado puede servir como **base inicial para intervenciones diferenciadas** en salud mental, reconociendo que se requiere mayor refinamiento, validación con nuevas muestras y estudios longitudinales para su aplicación definitiva.
 
-Este análisis permite interpretar las agrupaciones.
+---

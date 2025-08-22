@@ -10,10 +10,11 @@ df = pd.read_csv("data/4datasetListo.csv")
 
 # --- 2. Selección de features y target ---
 features = [
-    'SUMPHQ', 'SumaGAD', 'SUMCDrisc', 'mhc_total', 'mhc_ewb','loaff', 'hiaffect',  # escalas
-    'edad', 'Sexo', 'Trabajo','Religion','ConsumoSustancias', 'Semestre',
-    'EstCivil', 'Terapia', 'TrataPsi', 'UnAca','Grado'  # demográficas / contexto social
+    'SUMPHQ', 'SumaGAD', 'SUMCDrisc',  # escalas
+    'edad', 'Semestre','UnAca', 'Trabajo', 'Religion', 'EstCivil', #Demográficas
+    'CEntroU','Jornada'
 ]
+
 target = 'mhc_dx'  # bienestar categórico
 
 X = df[features]
@@ -23,8 +24,8 @@ y = df[target]
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# --- 4. Entrenar modelo KMeans ---
-kmeans = KMeans(n_clusters=5, max_iter=300, tol=1e-4, random_state=0)
+# --- 4. Entrenar modelo KMewans ---
+kmeans = KMeans(n_clusters=3, max_iter=1500, tol=1e-4, random_state=0,n_init=50)
 kmeans.fit(X_scaled)
 
 # --- 5. Predicción de los clusters ---
@@ -53,31 +54,6 @@ conteos = df.groupby('cluster')['mhc_dx'].value_counts().unstack()
 print("\nConteo de 'mhc_dx' por cluster:")
 print(conteos)
 
-
-# # --- 8. Visualización 2D (usando las dos primeras features escaladas) ---
-# plt.figure(figsize=(8, 6))
-
-# #Suficientes colores para la cantidad de clusters
-# colors = ['red', 'green', 'blue', 'purple', 'orange', 'cyan', 'magenta']
-
-# # # Usar solo las dos primeras columnas de X_scaled para graficar
-# x_axis = X_scaled[:, 0]
-# y_axis = X_scaled[:, 1]
-
-# # Dibujar cada punto con el color de su cluster asignado
-# for i in range(len(X_scaled)):
-#     plt.scatter(x_axis[i], y_axis[i], color=colors[y_predict[i]], s=50)
-
-# # Dibujar centroides
-# for i in range(len(centroids)):
-#     plt.scatter(centroids[i, 0], centroids[i, 1], color='black', s=200, marker='X', label=f'Centroid {i+1}')
-
-# plt.title("Clustering con KMeans (2 features)")
-# plt.xlabel("Feature 1: SUMPHQ (escalado)")
-# plt.ylabel("Feature 2: SumaGAD (escalado)")
-# plt.legend()
-# plt.grid(True)
-# plt.show()
 
 # Asumiendo que ya tienes df con 'cluster' y 'mhc_dx'
 contingencia = pd.crosstab(df['cluster'], df['mhc_dx'], normalize='index')
