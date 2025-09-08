@@ -1,8 +1,13 @@
-
+import sys
+import os
+import signal
 import streamlit as st
 import joblib          # Para cargar modelos
 import pandas as pd
 from pathlib import Path  # Para manejar rutas de archivos de forma robusta
+from PyInstaller.utils.hooks import copy_metadata
+
+datas = copy_metadata("streamlit")
 
 # ============================
 # Configuración de la página
@@ -25,6 +30,9 @@ Este formulario recoge información sobre **respuestas en escalas clínicas** y 
 👉 Al final se podrán usar estos datos como entrada para un modelo de Machine Learning que estime el nivel de bienestar.
 """)
 
+if st.button("❌ Cerrar aplicación"):
+    st.write("Cerrando servidor...")
+    os.kill(os.getpid(), signal.SIGTERM)  # Mata el proceso de streamlit
 
 st.subheader("📝 Cuestionarios")
 
@@ -260,7 +268,12 @@ dataUser= {
     "Jornada": valorJorn
 }
 #------------- carga y proceso de modelos
-BASE_DIR = Path(__file__).parent  # Carpeta donde está app.py
+if getattr(sys, 'frozen', False):
+    BASE_DIR = Path(sys._MEIPASS)  # dentro del exe
+else:
+    BASE_DIR = Path(__file__).parent  # modo desarrollo
+
+#BASE_DIR = Path(__file__).parent  # Carpeta donde está app.py
 model_GaussianNB = joblib.load(BASE_DIR / "m1_GaussianNB.joblib")
 model_KNN = joblib.load(BASE_DIR / "m3_KNN_model.joblib")
 model_MLP = joblib.load(BASE_DIR / "m4_MLP_classifier.joblib")

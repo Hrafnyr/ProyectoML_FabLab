@@ -92,4 +92,4 @@ Se utilizó un enfoque de **red neuronal multicapa (MLP) con Keras**, entrenada 
 
 ## 5. Notas adicionales
 
-- El tamaño del dataset (~7,500 registros) es adecuado para redes neuronales simples (MLP), pero insuficiente para modelos profundos complejos.
+- El tamaño del dataset (~7,500 registros) es adecuado para redes neuronales simples (MLP), pero insuficiente para modelos profundos complejos. Además se requiere instalar el paquete que es bastante pesado, puede probarse implementaciones en Notebooks.
