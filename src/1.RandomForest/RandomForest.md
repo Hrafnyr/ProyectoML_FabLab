@@ -68,3 +68,59 @@ Se tomarán las primeras 11 características:
 | EstCivil             |0.026593|
 
 Se agrega el uso del class_weight: esto permite mejorar ligeramente el recall de la clase minoritaria (aunque sigue bajo), y en la validación cruzada el promedio sube (0.56 → 0.60). Esto significa que está ayudando a que el modelo sea un poco más sensible a las clases pequeñas.
+
+---
+
+### **`f1_score`**
+
+* El **F1-score** es una métrica que combina **precisión (precision)** y **recall** en un solo número.
+* **Precisión (Precision)**: De todos los casos que el modelo predijo como positivos, ¿cuántos eran realmente positivos?
+* **Recall (Sensibilidad)**: De todos los casos realmente positivos, ¿cuántos logró identificar el modelo?
+
+El F1-score se calcula como la **media armónica** de precisión y recall:
+
+$$
+F1 = 2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}
+$$
+
+* Valor entre **0 y 1**, donde 1 es perfecto.
+
+---
+
+### **`average='macro'`**
+
+* En problemas de **multiclase** (como `mhc_dx` con 3 clases: Languishing, Moderado, Flourishing), el F1 se calcula **por clase**.
+* **`macro`** significa que:
+
+  1. Calcula el F1 para cada clase por separado.
+  2. Hace un **promedio simple** (sin ponderar por la cantidad de ejemplos por clase).
+* Esto es útil cuando se quiere **tratar todas las clases por igual**, aunque algunas tengan menos muestras.
+
+```python
+print("Macro F1:", f1_score(y_test, y_pred, average='macro'))
+```
+
+* Dice **qué tan bien, en promedio, el modelo clasifica cada clase**, sin que las clases grandes dominen el resultado.
+* Si tienes clases desbalanceadas (por ejemplo, muchas Moderado y pocas Flourishing), el **macro F1** te da una visión más justa que el accuracy simple.
+
+---
+
+### **`macro`**
+
+* Calcula **F1 por clase** y luego hace un **promedio simple**.
+* Cada clase cuenta **igual**, sin importar cuántos ejemplos tenga.
+* Útil si se quiere que **todas las clases tengan el mismo peso**.
+
+### **`micro`**
+
+* Calcula **total de verdaderos positivos, falsos positivos y falsos negativos** entre todas las clases, y luego el F1.
+* Da más peso a las **clases con más ejemplos**.
+* Útil si importa la **exactitud global** más que la equidad entre clases.
+
+### **`weighted`**
+
+* Calcula **F1 por clase** y hace un **promedio ponderado por cantidad de ejemplos en cada clase**.
+* Mezcla lo mejor de macro y micro: tiene en cuenta el tamaño de cada clase.
+* Útil cuando se quiere un **promedio justo considerando el desbalance** de clases.
+
+
