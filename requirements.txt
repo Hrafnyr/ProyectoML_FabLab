@@ -1,5 +1,6 @@
 joblib==1.2.0
 pandas==2.3.2
-pyinstaller==6.15.0
 streamlit==1.49.1
 scikit-learn==1.2.2
+numpy==1.25.0
+scipy==1.11.0
