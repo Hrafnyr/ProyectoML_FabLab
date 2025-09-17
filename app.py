@@ -5,9 +5,6 @@ import streamlit as st
 import joblib          # Para cargar modelos
 import pandas as pd
 from pathlib import Path  # Para manejar rutas de archivos de forma robusta
-from PyInstaller.utils.hooks import copy_metadata
-
-datas = copy_metadata("streamlit")
 
 # ============================
 # Configuración de la página
