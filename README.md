@@ -100,6 +100,14 @@ Se abrirá una ventana de su navegador donde podrá interactuar con la aplicaci�
 
 ![img](/img/inicio.png)
 
+## **NOTAS ADICIONALES:**
+
+ - Los archivos **.bat** es un archivo por lotes con una lista de comandos para que el usuario no tenga que configurar mayor cosa, por ser comandos de instalación o ejecución el antivirus puede marcar advertencia y poner en cuarentena el archivo, configure si esto pasa para permitir la ejecución.
+
+ - No pasa nada si vuelve a ejecutar **install_requirements.bat** otra vez, si ya está instalado todo no se va a volver a instalar, si no está seguro puede volver a repetir la ejecución del archivo sin problema.
+
+ - La primera vez que se ejecute **star_app.bat** puede que en la ventana de símbolo del sistema (cmd) aparezca una solicitud de ingresar correo. Esto es por la librería **Streamlit** que es donde se ejecuta y puede dar **Enter** dejando en blanco el espacio. Luego de eso volver a ejecutar el archivo para iniciar la aplicación.  
+
 ## **Paso 5**
 
 En la primera sección se tendrán 3 cuestionarios que debe responder, se indican instrucciones.
