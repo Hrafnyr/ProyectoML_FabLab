@@ -5,7 +5,10 @@ import streamlit as st
 import joblib          # Para cargar modelos
 import pandas as pd
 from pathlib import Path  # Para manejar rutas de archivos de forma robusta
-
+from modeloGuassian import crear_modelo_GNB
+from KNNModel import crear_model_KNN
+from model_MLP_Classifier import crear_modelo_MLP
+from model_KMeans import crear_model_Kmeans
 # ============================
 # Configuración de la página
 # ============================
@@ -265,12 +268,20 @@ dataUser= {
     "Jornada": valorJorn
 }
 #------------- carga y proceso de modelos
-if getattr(sys, 'frozen', False):
-    BASE_DIR = Path(sys._MEIPASS)  # dentro del exe
-else:
-    BASE_DIR = Path(__file__).parent  # modo desarrollo
+BASE_DIR = Path(__file__).parent  # Carpeta donde está app.py
+crear_modelo_GNB(file_csv=BASE_DIR/'4datasetListo.csv', 
+                      file_model=BASE_DIR/'m1_GaussianNB.joblib')
 
-#BASE_DIR = Path(__file__).parent  # Carpeta donde está app.py
+crear_model_KNN(file_csv=BASE_DIR/'4datasetListo.csv',
+                    file_model=BASE_DIR/'m3_KNN_model.joblib')
+
+crear_modelo_MLP(file_csv=BASE_DIR/'4datasetListo.csv',
+                    file_model=BASE_DIR/'m4_MLP_classifier.joblib')
+
+crear_model_Kmeans(file_csv=BASE_DIR/'4datasetListo.csv',
+                    file_model=BASE_DIR/'m2_modelo_kmeans.pkl',
+                    file_scaler=BASE_DIR/'m2_scaler.pkl')
+
 model_GaussianNB = joblib.load(BASE_DIR / "m1_GaussianNB.joblib")
 model_KNN = joblib.load(BASE_DIR / "m3_KNN_model.joblib")
 model_MLP = joblib.load(BASE_DIR / "m4_MLP_classifier.joblib")
