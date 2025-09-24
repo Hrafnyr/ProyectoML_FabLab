@@ -124,3 +124,76 @@ print("Macro F1:", f1_score(y_test, y_pred, average='macro'))
 * Útil cuando se quiere un **promedio justo considerando el desbalance** de clases.
 
 
+---
+
+## Mejoras implementadas
+
+Se le agrega al modelo la variación de class_weigth a **balanced**; esto con la finalidad de que el modelo no ignore las clases minoritarias.
+
+```
+if use_random_forest:
+    model = RandomForestClassifier(
+        n_estimators=100,
+        max_depth=None,
+        class_weight='balanced', # Evita que el modelo “ignore” clases minoritarias.
+        random_state=42,
+        n_jobs=-1
+    )
+```
+
+Los resultados:
+
+```
+Accuracy: 0.7269820971867008
+Balanced Accuracy: 0.49168958742632607
+Macro F1: 0.511349276160297
+```
+
+Reporte de clasificación:
+```
+               precision    recall  f1-score   support
+
+           0      0.663     0.507     0.574       450
+           1      0.745     0.885     0.809      1018
+           2      0.800     0.083     0.151        96
+
+    accuracy                          0.727      1564
+   macro avg      0.736     0.492     0.511      1564
+weighted avg      0.724     0.727     0.701      1564
+
+
+Matriz de confusión:
+ [[228 222   0]
+ [115 901   2]
+ [  1  87   8]]
+
+Accuracy CV (5 folds): 0.634476783286126 ± 0.05751417223022848
+
+Importancia de features:
+ SUMCDrisc            0.242555
+SUMPHQ               0.176616
+SumaGAD              0.122259
+edad                 0.083096
+Semestre             0.051330
+UnAca                0.050963
+Religion             0.034397
+CEntroU              0.034147
+Jornada              0.033133
+Trabajo              0.026308
+EstCivil             0.023699
+Etnia                0.019955
+Sexo                 0.018965
+TrataPsi             0.017975
+Grado                0.015464
+ConsumoSustancias    0.010241
+Alcohol              0.009837
+¿Tienehijos          0.009619
+Terapia              0.009198
+Tabaco               0.007029
+Marihuana            0.003214
+dtype: float64
+```
+
+Se observa que algunos valores disminuyeron, esto porque el **balanced** intenta ajustar mejor la clasificación, sin embargo el rendimiento no mejora significativamente y las features más importantes se siguen manteniendo al modelo original.
+
+Para temas de exploración de datos se deja el modelo original.

@@ -122,3 +122,96 @@ Accuracy CV (5 folds): 0.711 ± 0.008
 * **Investigación:** segmentar participantes según bienestar para análisis posteriores.
 * **Clínica / Educación:** filtro inicial para identificar casos que requieran atención.
 * **Programas de intervención:** evaluar cambios en bienestar con seguimiento automatizado.
+
+---
+
+## Ajustes y mejoras de optimización del modelo
+
+Se agrega:  **GaussianNB(var_smoothing=1e-5)**; Añade un pequeño valor a la varianza de cada feature para evitar división por cero. Puede afectar un poco la estabilidad y la predicción cuando las features tienen baja varianza o outliers. El modelo no mostró ninguna mejora agregando y variando el valor del parámetro.
+
+### Oversampling + SMOTE
+
+Es una técnica de aprendizaje automático que resuelve el problema de las clases desequilibradas en un conjunto de datos al generar muestras sintéticas de la clase minoritaria. En lugar de simplemente duplicar datos, SMOTE crea nuevos puntos de datos interpolando entre los ejemplos existentes de la clase minoritaria en el espacio de características, lo que resulta en un conjunto de datos más equilibrado para entrenar modelos de clasificación más precisos. 
+
+| k\_neighbors | Accuracy | F1-macro | Recall Clase 0 | Recall Clase 1 | Recall Clase 2 | Observaciones                                                          |
+| ------------ | -------- | -------- | -------------- | -------------- | -------------- | ---------------------------------------------------------------------- |
+| 3            | 0.645    | 0.565    | 0.653          | 0.646          | 0.583          | Buen equilibrio inicial, clase 2 todavía limitada                      |
+| 4            | 0.650    | 0.570    | 0.660          | 0.651          | 0.583          | Leve mejora en clases 0 y 1, recall clase 2 igual                      |
+| 5            | 0.650    | 0.575    | 0.656          | 0.651          | 0.615          | Mejor balance: clase 2 mejora sin afectar mucho las otras              |
+| 6            | 0.646    | 0.573    | 0.660          | 0.643          | 0.604          | Clase 2 pierde algo de recall, macro F1 no mejora; sobremezcla empieza |
+
+Por tanto se toma la cantidad de vecinos a **5** como valor más optimo.
+
+---
+
+## 1️⃣ Modelo Original (sin balanceo)
+
+**Métricas principales:**
+
+* **Accuracy:** 0.699
+* **Macro F1:** 0.581
+* **Balanced Accuracy:** 0.579
+
+**Recall por clase:**
+
+* Clase 0: 0.611 → captura \~61% de los casos
+* Clase 1: 0.771 → domina la predicción, alta recall
+* Clase 2: 0.354 → muy baja, casi no detecta minoritarios
+
+**Confusión:**
+
+* Clase 2 apenas 34/96 casos correctos, muchos falsos negativos
+* Clase 1 domina, causando que minoritarios se pierdan
+
+**Validación cruzada:** 0.711 ± 0.008 (accuracy) → indica estabilidad, pero sesgo hacia clase mayoritaria.
+
+**Conclusión:**
+
+* El modelo **favorece la clase mayoritaria (1)**.
+* Minoritarios (0 y sobre todo 2) tienen bajo recall y F1.
+* Macro F1 bajo refleja **desbalance en desempeño entre clases**.
+
+---
+
+## 2️⃣ Modelo Ajustado con SMOTE (k\_neighbors=5, target\_dict={0:2500, 2:1200})
+
+**Métricas principales:**
+
+* **Accuracy:** 0.646 → ligeramente menor que original, esperado por balanceo
+* **Macro F1:** 0.570 → aumenta el equilibrio entre clases minoritarias y mayoritaria
+* **Balanced Accuracy:** 0.636 → mejora sustancial respecto al modelo original
+
+**Recall por clase:**
+
+* Clase 0: 0.660 → mejora respecto a 0.611, más casos detectados
+* Clase 1: 0.643 → leve reducción frente al modelo original, evitando que domine
+* Clase 2: 0.604 → mejora dramática respecto a 0.354, detecta más de la mitad de los casos
+
+**Confusión:**
+
+* Clase 2: 58/96 casos correctos → más del **doble de aciertos** que sin SMOTE
+* Clase 0: 297/450 → más casos correctos que original
+* Clase 1: reducción leve de recall, pero mantiene buen desempeño
+
+**Validación cruzada:** F1-macro CV 0.573 ± 0.011 → consistente y equilibrado
+
+---
+
+## 3️⃣ Mejoras presentadas con SMOTE
+
+| Mejora                   | Observación                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| **Clase 0**              | Recall aumenta de 0.611 → 0.660 → captura más casos minoritarios moderados                |
+| **Clase 2**              | Recall aumenta de 0.354 → 0.604 → detecta muchos más casos minoritarios críticos          |
+| **Macro F1**             | Mantiene buen nivel (0.581 → 0.570) y refleja mejor balance de desempeño                  |
+| **Balanced Accuracy**    | Aumenta notablemente, mostrando que **todas las clases tienen desempeño más equilibrado** |
+| **Trade-off controlado** | Accuracy global baja ligeramente, pero el modelo ahora es más justo para minoritarios     |
+
+---
+
+### Conclusión General
+
+* El **modelo original** era más preciso en global, pero **sesgaba las predicciones hacia la clase mayoritaria (1)**.
+* El **modelo con SMOTE** logra un **equilibrio mucho mejor entre clases 0, 1 y 2**, especialmente mejorando la detección de la clase minoritaria crítica (2).
+* El ajuste de **k\_neighbors=5** y el **target dict** de SMOTE fueron clave para lograr un **trade-off óptimo** entre recall de minoritarios y precisión de la clase mayoritaria.
+
