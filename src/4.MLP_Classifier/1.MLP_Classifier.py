@@ -53,4 +53,4 @@ print("\nMatriz de confusión:")
 print(confusion_matrix(y_test, y_pred))
 
 # guardar el modelo completo
-joblib.dump(model, "models/MLP/MLP_classifier.joblib")
+#joblib.dump(model, "models/MLP/MLP_classifier.joblib")
