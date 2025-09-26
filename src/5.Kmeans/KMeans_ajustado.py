@@ -1,5 +1,4 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -25,7 +24,7 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
 # --- 4. Entrenar modelo KMewans ---
-kmeans = KMeans(n_clusters=3, max_iter=1500, tol=1e-4, random_state=0,n_init=50)
+kmeans = KMeans(n_clusters=3, max_iter=300, tol=1e-5, random_state=0,init="k-means++")
 kmeans.fit(X_scaled)
 
 # --- 5. Predicción de los clusters ---
@@ -54,18 +53,8 @@ conteos = df.groupby('cluster')['mhc_dx'].value_counts().unstack()
 print("\nConteo de 'mhc_dx' por cluster:")
 print(conteos)
 
-
-# # Asumiendo que ya tienes df con 'cluster' y 'mhc_dx'
-# contingencia = pd.crosstab(df['cluster'], df['mhc_dx'], normalize='index')
-# contingencia.plot(kind='bar', stacked=True, colormap='viridis')
-# plt.title('Distribución de mhc_dx por Cluster')
-# plt.xlabel('Cluster')
-# plt.ylabel('Proporción')
-# plt.legend(title='mhc_dx', labels=['Desanimado', 'Moderado', 'Florecido'])
-# plt.show()
-
 #importar y guardar
-#joblib.dump(kmeans, 'models/KMEANS/modelo_kmeans.pkl')
+# joblib.dump(kmeans, 'models/KMEANS/modelo_kmeans.pkl')
 
 # Guardar el scaler
-#joblib.dump(scaler, 'models/KMEANS/scaler.pkl')
+# joblib.dump(scaler, 'models/KMEANS/scaler.pkl')
