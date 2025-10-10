@@ -61,5 +61,5 @@ print("Confusion matrix:\n", confusion_matrix(y_test, y_pred))
 print("F1-macro CV (5 folds): {:.3f} ± {:.3f}".format(cv_scores.mean(), cv_scores.std()))
 
 # --- Guardar modelo ---
-#joblib.dump(pipeline, 'models/GAUSSIAN_NB/GaussianNB.joblib')  # guarda scaler + modelo en un solo objeto
+joblib.dump(pipeline, 'models/GAUSSIAN_NB/m1_GaussianNB.joblib')  # guarda scaler + modelo en un solo objeto
 

@@ -7,8 +7,6 @@ Esta forma paralela de evaluar multiples árboles tomando de manera aleatoria ca
 # Análisis de Resultados
 ![RandomForest](../img/RandomForestResults.png)
 
-¡Muy buen resultado para ser un primer modelo! Aquí un resumen rápido para interpretar lo que ves:
-
 ---
 
 ### Métricas principales

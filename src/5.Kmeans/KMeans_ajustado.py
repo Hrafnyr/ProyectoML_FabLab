@@ -54,7 +54,7 @@ print("\nConteo de 'mhc_dx' por cluster:")
 print(conteos)
 
 #importar y guardar
-# joblib.dump(kmeans, 'models/KMEANS/modelo_kmeans.pkl')
+joblib.dump(kmeans, 'models/KMEANS/m2_modelo_kmeans.pkl')
 
 # Guardar el scaler
-# joblib.dump(scaler, 'models/KMEANS/scaler.pkl')
+joblib.dump(scaler, 'models/KMEANS/m2_scaler.pkl')

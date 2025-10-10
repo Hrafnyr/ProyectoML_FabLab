@@ -59,4 +59,4 @@ cv_scores = cross_val_score(pipeline, X, y, cv=cv, scoring='f1_macro')
 print(f"\nF1-macro CV (5 folds): {cv_scores.mean():.3f} ± {cv_scores.std():.3f}")
 
 # --- 8. Guardar pipeline ---
-# joblib.dump(pipeline, "models/KNN/KNN_SMOTE.joblib")
+joblib.dump(pipeline, "models/KNN/m3_KNN_model.joblib")

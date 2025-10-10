@@ -59,4 +59,4 @@ print("\n🔹 Classification Report:\n", classification_report(y_test, y_pred))
 print("\n🔹 Matriz de Confusión:\n", confusion_matrix(y_test, y_pred))
 
 # --- 7. Guardar modelo ---
-#joblib.dump(pipeline, "models/MLP/MLP_classifier_smote.joblib")
+joblib.dump(pipeline, "models/MLP/m4_MLP_classifier.joblib")
