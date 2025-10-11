@@ -2,10 +2,11 @@
 import pandas as pd
 import joblib
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-from sklearn.pipeline import make_pipeline  # <-- para pipeline integrado
+from imblearn.pipeline import Pipeline   # <-- de imblearn
+from imblearn.over_sampling import SMOTE
 from pathlib import Path
 
 def crear_model_KNN(file_csv='4datasetListo.csv', file_model='m3_KNN_model.joblib'):
@@ -34,22 +35,28 @@ def crear_model_KNN(file_csv='4datasetListo.csv', file_model='m3_KNN_model.jobli
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    # --- 4. Crear pipeline: escalado + KNN ---
-    pipeline = make_pipeline(
-        StandardScaler(),
-        KNeighborsClassifier(n_neighbors=5, weights='distance')
-    )
+    # --- 4. Pipeline: SMOTE + Escalado + KNN ---
+    pipeline = Pipeline(steps=[
+        ('smote', SMOTE(sampling_strategy={0:2500, 2:1200}, random_state=42)),
+        ('scaler', StandardScaler()),
+        ('knn', KNeighborsClassifier(
+            n_neighbors=7, 
+            weights='distance',
+            metric='minkowski',
+            p=2,
+            algorithm='auto'
+        ))
+    ])
 
-    # --- 5. Entrenar modelo con pipeline ---
+    # --- 5. Entrenar modelo ---
     pipeline.fit(X_train, y_train)
 
     # --- 6. Predicción y métricas ---
     y_pred = pipeline.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
 
     # --- 7. Validación cruzada ---
-    cv_scores = cross_val_score(pipeline, X, y, cv=5, scoring='accuracy')
-    #print(f"\nAccuracy CV (5 folds): {cv_scores.mean():.3f} ± {cv_scores.std():.3f}")
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    cv_scores = cross_val_score(pipeline, X, y, cv=cv, scoring='f1_macro')
 
     # --- 9. Guardar pipeline completo ---
     joblib.dump(pipeline, file_model)

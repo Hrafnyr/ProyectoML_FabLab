@@ -4,6 +4,8 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from imblearn.pipeline import Pipeline
+from imblearn.over_sampling import SMOTE
 from pathlib import Path
 
 def crear_modelo_MLP(file_csv='4datasetListo.csv', file_model='m4_MLP_classifier.joblib'):
@@ -23,6 +25,7 @@ def crear_modelo_MLP(file_csv='4datasetListo.csv', file_model='m4_MLP_classifier
         'edad', 'Semestre','UnAca', 'Trabajo', 'Religion', 'EstCivil', #Demográficas
         'CEntroU','Jornada'
     ]
+    
     target = 'mhc_dx'  # bienestar categórico
 
     X = df[features]
@@ -33,26 +36,35 @@ def crear_modelo_MLP(file_csv='4datasetListo.csv', file_model='m4_MLP_classifier
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    # --- 4. Escalado ---
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    # --- 4. Pipeline: SMOTE + Escalado + MLP ---
+    pipeline = Pipeline(steps=[
+        # Oversampling
+        ('smote', SMOTE(
+            sampling_strategy={0: 2500, 2: 1200},
+            random_state=42
+        )),
+        
+        # Normalización: importante para MLP
+        ('scaler', StandardScaler()),
+        
+        # Red neuronal
+        ('mlp', MLPClassifier(
+            hidden_layer_sizes=(100,60),  #  capas y neuronas
+            max_iter=1000,               #  nº máximo de iteraciones
+            alpha=0.01,                  #  regularización L2 (0.0001, 0.001, 0.1)
+            activation='logistic',           #  'relu', 'tanh', 'logistic'
+            solver='sgd',               #  'adam' (default), 'sgd', 'lbfgs'
+            random_state=42
+        ))
+    ])
 
-    # --- 5. Entrenamiento del modelo ---
-    model = MLPClassifier(
-        hidden_layer_sizes=(30,20),
-        max_iter=3000,
-        random_state=42,
-        alpha=0.01,
-        activation='logistic'
-    )
-    model.fit(X_train_scaled, y_train)
+    # --- 5. Entrenamiento ---
+    pipeline.fit(X_train, y_train)
 
-    # --- 6. Predicciones y evaluación ---
-    y_pred = model.predict(X_test_scaled)
-
-    accuracy = accuracy_score(y_test, y_pred)
+    # --- 6. Predicciones y métricas ---
+    y_pred = pipeline.predict(X_test)
 
     # guardar el modelo completo
-    joblib.dump(model, file_model)
+    joblib.dump(pipeline, file_model)
+
     return file_model

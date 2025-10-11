@@ -32,7 +32,7 @@ def crear_model_Kmeans(file_csv='4datasetListo.csv', file_model='m2_modelo_kmean
     X_scaled = scaler.fit_transform(X)
 
     # --- 4. Entrenar modelo KMewans ---
-    kmeans = KMeans(n_clusters=3, max_iter=1500, tol=1e-4, random_state=0,n_init=50)
+    kmeans = KMeans(n_clusters=3, max_iter=300, tol=1e-5, random_state=0,init="k-means++")
     kmeans.fit(X_scaled)
 
     # --- 5. Predicción de los clusters ---
