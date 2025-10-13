@@ -1,8 +1,11 @@
 name: Check Docker Image Size
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Motivo del build'
+        required: false
 
 jobs:
   build:
@@ -12,6 +15,25 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
 
+    - name: Delete previous artifacts
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const artifacts = await github.actions.listArtifactsForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo
+          });
+          for (const artifact of artifacts.data.artifacts) {
+            if (artifact.name === 'fablab-ml-image') {
+              console.log(`Deleting artifact ${artifact.name} (id ${artifact.id})`);
+              await github.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id
+              });
+            }
+          }
+
     - name: Build Docker image
       run: docker build -t fablab-ml:latest ./src/app
 
@@ -20,7 +42,19 @@ jobs:
 
     - name: Check image size
       run: |
-        echo "🔍 Checking tar size..."
+        echo "Verificación de tamaño, máximo 2GB..."
         ls -lh fablab-ml.tar
-        echo "Tamaño en bytes:"
-        stat -c %s fablab-ml.tar
+        SIZE=$(stat -c %s fablab-ml.tar)
+        echo "Tamaño en bytes: $SIZE"
+        LIMIT=$((2 * 1024 * 1024 * 1024))
+        if [ "$SIZE" -gt "$LIMIT" ]; then
+          echo "❌ Imagen demasiado grande (${SIZE} bytes > 2GB)"
+          exit 1
+        fi
+        echo "✅ Imagen dentro del límite."
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: fablab-ml-image
+        path: fablab-ml.tar
