@@ -1,0 +1,26 @@
+name: Check Docker Image Size
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build -t fablab-ml:latest ./src/app
+
+    - name: Save image to tar
+      run: docker save fablab-ml:latest -o fablab-ml.tar
+
+    - name: Check image size
+      run: |
+        echo "🔍 Checking tar size..."
+        ls -lh fablab-ml.tar
+        echo "Tamaño en bytes:"
+        stat -c %s fablab-ml.tar
